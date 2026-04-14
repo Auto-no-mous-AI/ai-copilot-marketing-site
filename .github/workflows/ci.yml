@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  validate:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -17,25 +17,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: npm
 
-      - name: Run project checks
-        shell: bash
-        run: |
-          set -euo pipefail
-          if [ -f package-lock.json ]; then
-            npm ci
-            npm run lint --if-present
-            npm test --if-present
-          elif [ -f pnpm-lock.yaml ]; then
-            corepack enable
-            pnpm install --frozen-lockfile
-            pnpm run lint --if-present
-            pnpm test --if-present
-          elif [ -f yarn.lock ]; then
-            corepack enable
-            yarn install --immutable || yarn install --frozen-lockfile
-            yarn run lint --if-present
-            yarn test --if-present
-          else
-            echo "No JS project files yet. CI scaffold is active."
-          fi
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build app
+        run: npm run build
+
+      - name: Build container
+        run: docker build -t ai-copilot-marketing-site:ci .
