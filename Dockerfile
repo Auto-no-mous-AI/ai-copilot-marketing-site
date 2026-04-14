@@ -1,14 +1,16 @@
 FROM node:20-alpine AS builder
 WORKDIR /app
 
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
-COPY apps ./apps
-COPY packages ./packages
+COPY package.json package-lock.json ./
+RUN npm ci
 
-RUN corepack enable && pnpm install --frozen-lockfile
-RUN pnpm --dir apps/marketing-web build
+COPY angular.json tsconfig.json tsconfig.app.json postcss.config.json tailwind.config.js ./
+COPY public ./public
+COPY src ./src
+
+RUN npm run build
 
 FROM nginx:1.27-alpine
-COPY --from=builder /app/apps/marketing-web/dist/marketing-web/browser /usr/share/nginx/html
-COPY apps/marketing-web/nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/dist/marketing-web/browser /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80

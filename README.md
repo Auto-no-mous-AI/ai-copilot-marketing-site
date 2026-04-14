@@ -1,4 +1,7 @@
 # MarketingWeb
+[![CI](https://github.com/Auto-no-mous-AI/ai-copilot-marketing-site/actions/workflows/ci.yml/badge.svg)](https://github.com/Auto-no-mous-AI/ai-copilot-marketing-site/actions/workflows/ci.yml) [![Release](https://github.com/Auto-no-mous-AI/ai-copilot-marketing-site/actions/workflows/release.yml/badge.svg)](https://github.com/Auto-no-mous-AI/ai-copilot-marketing-site/actions/workflows/release.yml)
+
+
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.13.
 
@@ -57,3 +60,9 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+## CI And Release
+
+- Manual CI trigger is available through the CI workflow in GitHub Actions.
+- Release instructions live in [docs/releasing.md](./docs/releasing.md).
+
